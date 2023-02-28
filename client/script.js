@@ -58,9 +58,6 @@ const handleSubmit = async (e) => {
   // Add user's message to the chat stripe
   ChatContainer.innerHTML += chatStripe(false, data.get('prompt'));
 
-  // Save user's message to a global variable
-  window.lastUserMessage = data.get('prompt');
-
   form.reset();
 
   // Add bot's message to the chat stripe
