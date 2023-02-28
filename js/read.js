@@ -7,14 +7,14 @@ let chatHistory = [
 
 // Write chat history to file
 const writeChatHistory = (data) => {
-  fs.writeFileSync('data\chatHistory.json', JSON.stringify(data));
+  fs.writeFileSync('data/chatHistory.json', JSON.stringify(data));
 };
 
 writeChatHistory(chatHistory);
 
 // Read chat history from file
 const readChatHistory = () => {
-  const data = fs.readFileSync('data\chatHistory.json', 'utf8');
+  const data = fs.readFileSync('data/chatHistory.json', 'utf8');
   return JSON.parse(data);
 };
 

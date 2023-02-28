@@ -58,3 +58,4 @@ const displayChatHistory = () => {
 
 // Call displayChatHistory() to initially display the chat history
 displayChatHistory();
+
