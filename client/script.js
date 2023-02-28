@@ -55,36 +55,15 @@ const handleSubmit = async (e) => {
 
   const data = new FormData(form);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    const data = new FormData(form);
-  
-    // Add user's message to the chat stripe
-    ChatContainer.innerHTML += chatStripe(false, data.get('prompt'));
-  
-    // Save user's message to a global variable
-    window.lastUserMessage = data.get('prompt');
-  
-    form.reset();
-  
-    // Add bot's message to the chat stripe
-    const uniqueId = generateUniqueID();
-    ChatContainer.innerHTML += chatStripe(true, " ", uniqueId);
-  
-    ChatContainer.scrollTop = ChatContainer.scrollHeight;
-    const messageDiv = document.getElementById(uniqueId);
-  
-    loader(messageDiv)
-  }
-  
-
-  //users chatstripe
+  // Add user's message to the chat stripe
   ChatContainer.innerHTML += chatStripe(false, data.get('prompt'));
+
+  // Save user's message to a global variable
+  window.lastUserMessage = data.get('prompt');
 
   form.reset();
 
-  //bot chatstripe
+  // Add bot's message to the chat stripe
   const uniqueId = generateUniqueID();
   ChatContainer.innerHTML += chatStripe(true, " ", uniqueId);
 
@@ -120,7 +99,7 @@ const handleSubmit = async (e) => {
     alert(err);
 
   }
-  }
+}
 
 form.addEventListener('submit', handleSubmit);
 
@@ -129,4 +108,3 @@ form.addEventListener('keyup', (e) => {
     handleSubmit(e);
   }
 });
-
