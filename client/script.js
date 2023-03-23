@@ -35,73 +35,60 @@ function generateUniqueID() {
   return `id-${timestamp}-${hexadecimalString}`;
 }
 
-function chatStripe(isAi, value, uniqueId) {
-  return `
-    <div class="wrapper ${isAi && 'ai'}">
-      <div class="chat">
-        <div class="profile">
-          <img src="${isAi ? bot : user}" alt="profile"/>
-        </div>
-        <div class="message-wrapper ${isAi ? 'ai' : ''}">
-          <div class="message" id="${uniqueId}">${value}</div>
-        </div>
-      </div>
+
+//Make a chat history for gpt-3, readable by humans and gpt-3
+// make the chat history actually being read by the gpt-3 api and being interacted with for new answers. 
+// put the chat history is ChatHistory.js
+// make the chat history readable by humans and gpt-3
+
+
+
+
+// Path: client\script.js
+form.addEventListener('submit', (e) => { 
+  e.preventDefault();
+  const input = document.querySelector('input');
+  const value = input.value;
+  if (value === '') {
+    return;
+  }
+  input.value = '';
+  const id = generateUniqueID();
+  const userMessage = {
+    id,
+    value,
+    type: 'user',
+  };
+  ChatContainer.innerHTML += ` 
+    <div class="message user" id="${id}">
+      <img src="${user}" alt="user" />
+      <p class="text">${value}</p>
     </div>
   `;
-}
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  const data = new FormData(form);
-
-  // Add user's message to the chat stripe
-  ChatContainer.innerHTML += chatStripe(false, data.get('prompt'));
-
-  form.reset();
-
-  // Add bot's message to the chat stripe
-  const uniqueId = generateUniqueID();
-  ChatContainer.innerHTML += chatStripe(true, " ", uniqueId);
-
-  ChatContainer.scrollTop = ChatContainer.scrollHeight;
-  const messageDiv = document.getElementById(uniqueId);
-
-  loader(messageDiv);
-
-  //fetch data from server to get bot's response
-  const response = await fetch('https://codexo.onrender.com', {
+  const botMessage = {
+    id: generateUniqueID(),
+    type: 'bot',
+  };
+  ChatContainer.innerHTML += `
+    <div class="message bot" id="${botMessage.id}">
+      <img src="${bot}" alt="bot" />
+      <p class="text"></p>
+    </div>
+  `;
+  const botTextElement = document.querySelector(`#${botMessage.id} .text`);
+  loader(botTextElement);
+  fetch('/api', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      prompt: data.get('prompt')
-    })
+    body: JSON.stringify(userMessage),
   })
+    .then((res) => res.json())
+    .then((data) => {
+      clearInterval(loadinterval);
+      botMessage.value = data.text;
+      typeText(botTextElement, data.text);
+    });
+} ); 
 
-  clearInterval(loadinterval)
-  messageDiv.innerHTML = '';
-
-  if(response.ok) {
-    const data = await response.json();
-    const parsedData = data.bot.trim();
-
-    typeText(messageDiv, parsedData);
-  } else {
-    const err = await response.text();
-
-    messageDiv.innerHTML = "Something went wrong";
-
-    alert(err);
-
-  }
-}
-
-form.addEventListener('submit', handleSubmit);
-
-form.addEventListener('keyup', (e) => {
-  if (e.keyCode === 13) {
-    handleSubmit(e);
-  }
-});
