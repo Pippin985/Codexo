@@ -1,22 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<!--I need to adapt this code to style.css , sripts.js and server.js-->
+
+<!DOCTYPE html> <!--This is the HTML file for our client. It will contain the HTML for our chatbot. We will use the HTML5 doctype. -->
+<html lang="en"> 
+  <head>  <!--The head tag contains the metadata for our HTML file. We will use UTF-8 encoding and a viewport meta tag to make our website responsive. 
+    We will also add a title and link to our CSS file. -->
+    <meta charset="UTF-8"  /> 
     <link rel="icon" type="image/svg+xml" href="favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Codex - Your Coding AI</title>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body>
+  <body> <!--The body tag contains the content of our HTML file. 
+    We will have a div with the id of app which will contain our chat container and the form for the user to input their prompt. -->
     <div id="app">
+
       <div id="chat_container"></div>
 
-      <form>
+      <form> 
         <textarea name="prompt" rows="1" cols="1" placeholder="Ask Codex..."></textarea>
         <button type="submit"><img src="assets/send.svg" /></button>
-      </form>
-    </div>
+      </form> 
+    </div> 
 
-    <script type="module" src="script.js"></script>
+    <script type="module" src="script.js"></script> <!--We will add a script tag to import our script.js file. -->
   </body>
 </html>
+
+<!--The HTML file is pretty simple. We have a div with the id of app which will contain our chat container and the form for the user to input their prompt. 
+  The form has a textarea for the user to type their prompt and a button to submit the prompt. The button has an image of a send icon. -->
+<!-- Path: client\style.css -->
+
+

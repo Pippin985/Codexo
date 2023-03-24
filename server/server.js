@@ -11,7 +11,6 @@ const configuration = new Configuration({  // changed variable name from Configu
 
 const openai = new OpenAIApi(configuration);  // changed variable name from Configuration to configuration
 
-const express = require('express'); 
 const app = express();
 const port = 3000;
 const axios = require('axios');
